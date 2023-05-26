@@ -1,27 +1,6 @@
 from django.db import models
 
 
-# class Rank(models.Model):
-#     name = models.CharField(max_length=100)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modify_at = models.DateTimeField(auto_now=True)
-#     on_deleted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return f'{self.name}'
-
-
-# class Package(models.Model):
-#     name = models.CharField(max_length=100)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modify_at = models.DateTimeField(auto_now=True)
-#     on_deleted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return f'{self.name}'
-
-
-
 
 class Food(models.Model):
     name = models.CharField(max_length=100)

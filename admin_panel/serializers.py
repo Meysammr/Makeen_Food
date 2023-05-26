@@ -22,26 +22,6 @@ class LoginSerializer(serializers.Serializer):
         raise serializers.ValidationError('Invalid username or password')
 
 
-# class AdminUserSerializer(serializers.ModelSerializer):
-#     username = serializers.CharField(max_length=100)
-#     password = serializers.CharField(max_length=150, write_only=False)
-#     name = serializers.CharField(max_length=150, default=None)
-#     rank = serializers.CharField(max_length=40, default='Admin')
-#
-#     class Meta:
-#         model = UserModel
-#         fields = ('username', 'password', 'name ', 'rank')
-#
-#     def create(self, validated_data):
-#         user = UserModel.objects.create_user(
-#             username=validated_data['username'],
-#             password=validated_data['password'],
-#         )
-#         user.name = validated_data['name']
-#         user.is_staff = True
-#         user.is_admin = True
-#         user.save()
-#         return user
 class AdminUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=100)
     password = serializers.CharField(max_length=150, write_only=True)
@@ -152,15 +132,7 @@ class FinancialReportSerializer(serializers.Serializer):
 
         return data
 
-    # def validate(self, data):
-    #     start_date = data.get("start_date")
-    #     end_date = data.get("end_date")
-    #     if start_date >= end_date:
-    #         raise serializers.ValidationError("start date must be before end date")
-    #     yesterday = date.today() - timedelta(days=1)
-    #     if end_date > yesterday:
-    #         raise serializers.ValidationError("end date must be before today")
-    #     return data
+    
 
 
 class CreateMenuSerializer(serializers.Serializer):
