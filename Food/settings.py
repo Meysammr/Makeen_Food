@@ -31,7 +31,7 @@ SECRET_KEY = "1234g"
 DEBUG = bool(DEBUG)
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -91,8 +91,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5438',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',

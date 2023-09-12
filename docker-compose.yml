@@ -1,16 +1,16 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres
+    restart: always
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     networks:
       - main
     ports:
-      - "5438:5432"
-    restart: always
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
   app:
