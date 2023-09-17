@@ -1,0 +1,137 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+    networks:
+      - main
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  #    container_name: postgres
+#    image: postgres:latest
+#    environment:
+#      - POSTGRES_DB=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    networks:
+#      - main
+#    ports:
+#      - "5432:5432"
+#    restart: always
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+  app:
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#    command: bash -c "python manage.py migrate && gunicorn myproject.wsgi:application -b 0.0.0.0:8000"
+    container_name: app
+    volumes:
+      - .:/code/
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    networks:
+      - main
+    restart: always
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
+# /////////////////////////////////////////
+# services:
+#   postgres:
+#     container_name: postgres
+#     image: postgres:latest
+#     environment:
+#       - POSTGRES_DB=postgres
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=postgres
+#     extra_hosts:
+#       -"postgres:127.0.0.1"
+#     networks:
+#       - main
+#     ports:
+#       - "5432:5432"
+#     restart: always
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     dns: 8.8.8.8  # این خط را اضافه کنید
+
+# app:
+#   build: .
+#   command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#   container_name: app
+#   volumes:
+#     - .:/code/
+#   depends_on:
+#     - postgres
+#   ports:
+#     - "8000:8000"
+#   networks:
+#     - main
+#   restart: always
+#   dns: 8.8.8.8  # این خط را اضافه کنید
+
+# networks:
+#   main:
+#     external:
+#       name: bridge
+
+# volumes:
+#   postgres_data:
+
+# services:
+#   postgres:
+#     container_name: postgres
+#     image: postgres:latest
+#     environment:
+#       - POSTGRES_DB=postgres
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=postgres
+#     networks:
+#       - main
+#     ports:
+#       - "5432:5432"
+#     restart: always
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     depends_on:
+#       - db_ready
+
+#   app:
+#     build: .
+#     command: sh -c "python manage.py wait_for_db && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#     container_name: app
+#     volumes:
+#       - .:/code/
+#     ports:
+#       - "8000:8000"
+#     networks:
+#       - main
+#     restart: always
+#     depends_on:
+#       - postgres
+
+#   db_ready:
+#     image: busybox
+#     command: sh -c "until nc -z -v -w30 postgres 5432; do echo 'Waiting for PostgreSQL...' && sleep 2; done"
+
+# networks:
+#   main:
+#     external:
+#       name: bridge
+
+# volumes:
+#   postgres_data:

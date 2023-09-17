@@ -26,10 +26,12 @@ class LoginPanel(APIView):
         user = authenticate(request=request, username=username, password=password)
 
         if user:
-            refresh_token = RefreshToken().for_user(user)
-            access_token = refresh_token.access_token
-            data = {'access_token': str(access_token), 'refresh_token': str(refresh_token)}
-            return Response(data=data, status=status.HTTP_200_OK)
+            refresh = RefreshToken.for_user(user)
+            response_data = {
+                'access_token': str(refresh.access_token),
+                'refresh_token': str(refresh)
+            }
+            return Response(data=response_data, status=status.HTTP_200_OK)
 
         return Response({'Invalid': 'Username and password are wrong'}, status=status.HTTP_403_FORBIDDEN)
 class AdminUser(APIView):
@@ -49,7 +51,7 @@ class CreateUser(APIView):
         serializer = CreateUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status.HTTP_200_OK, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class DeleteUser(APIView):
@@ -83,7 +85,7 @@ class CreateMenu(APIView):
         serializer = CreateMenuSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

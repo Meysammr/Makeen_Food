@@ -26,10 +26,15 @@ class UserModelManager(BaseUserManager):
 
 
 class UserModel(AbstractBaseUser):
+    PERSONALITIES = (
+        ('دانشجو', 'student'), ('منتور', 'mentor'), ('کادر', 'personal'), ('مهمان', 'guest')
+    )
     username = models.CharField(max_length=255, unique=True, )
     name = models.CharField(max_length=100)
+    # rank = models.ForeignKey(Rank, on_delete=models.PROTECT, null=True)
     rank = models.CharField(max_length=50, null=True)
-    package = models.CharField(max_length=50, null=True)
+    # package = models.ForeignKey(Package, on_delete=models.PROTECT, null=True)
+    package = models.CharField(max_length=50, null=True, choices=PERSONALITIES)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -123,10 +128,13 @@ class Payment(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=50, null=True)
     order_number=models.BigIntegerField(default=1000000)
+    # amount = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
     description = models.TextField(null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=PENDING)
+    # token = models.CharField(max_length=100, blank=True, null=True)
     response = models.TextField(blank=True, null=True)
+    # timestamp = models.DateTimeField(auto_now_add=True)
     create_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
