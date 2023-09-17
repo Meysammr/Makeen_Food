@@ -26,12 +26,10 @@ class LoginPanel(APIView):
         user = authenticate(request=request, username=username, password=password)
 
         if user:
-            refresh = RefreshToken.for_user(user)
-            response_data = {
-                'access_token': str(refresh.access_token),
-                'refresh_token': str(refresh)
-            }
-            return Response(data=response_data, status=status.HTTP_200_OK)
+            refresh_token = RefreshToken().for_user(user)
+            access_token = refresh_token.access_token
+            data = {'access_token': str(access_token), 'refresh_token': str(refresh_token)}
+            return Response(data=data, status=status.HTTP_200_OK)
 
         return Response({'Invalid': 'Username and password are wrong'}, status=status.HTTP_403_FORBIDDEN)
 class AdminUser(APIView):
